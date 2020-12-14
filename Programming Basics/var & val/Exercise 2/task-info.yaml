@@ -1,0 +1,38 @@
+type: output
+files:
+- name: test/output.txt
+  visible: false
+  text: |
+    42
+    10
+  learner_created: false
+- name: src/ccc.kt
+  visible: true
+  placeholders:
+  - offset: 43
+    length: 65
+    placeholder_text: // TODO
+    initial_state:
+      length: 7
+      offset: 43
+    initialized_from_dependency: false
+    selected: true
+    status: Solved
+    encrypted_possible_answer: |-
+      var a = 10
+        val b = a
+        a = 42
+        println(a)
+        println(b)
+  text: |-
+    package varAndValExercise2
+
+    fun main() {
+      // TODO
+    }
+  learner_created: false
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Tue, 08 Dec 2020 19:59:01 UTC
+record: -1

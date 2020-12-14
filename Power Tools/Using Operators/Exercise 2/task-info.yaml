@@ -1,0 +1,117 @@
+type: edu
+files:
+- name: src/Task.kt
+  visible: true
+  placeholders:
+  - offset: 107
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 107
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: MutableList(10) { it }
+  - offset: 155
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 155
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      println("assignAppendIncrementContains()")
+        val list = create()
+        list[9] = 99
+        list += 100
+        list[10]++
+        println(list)
+        println(101 in list)
+  - offset: 181
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 181
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      println("minus()")
+        val list = create()
+        println(list - 5)
+        println(list - 5 - 6 - 7 - 8)
+        println(list - 10)
+        list -= 0
+        list -= 1
+        list -= -1
+        println(list)
+  - offset: 206
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 206
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      println("plus()")
+        var list = create() + 11 + 12 + 13
+        list += 14
+        println(list)
+  text: |-
+    // UsingOperators/UsingOperatorsSoln2.kt
+    package usingOperatorsExercise2
+
+    fun create(): MutableList<Int> = TODO()
+
+    fun assignAppendIncrementContains() {
+      TODO()
+    }
+
+    fun minus() {
+      TODO()
+    }
+
+    fun plus() {
+      TODO()
+    }
+
+    fun main() {
+      assignAppendIncrementContains()
+      minus()
+      plus()
+    }
+    /* Exercise Output:
+    assignAppendIncrementContains()
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 99, 101]
+    true
+    minus()
+    [0, 1, 2, 3, 4, 6, 7, 8, 9]
+    [0, 1, 2, 3, 4, 9]
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    [2, 3, 4, 5, 6, 7, 8, 9]
+    plus()
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14]
+    */
+  learner_created: false
+- name: test/Tests.kt
+  visible: false
+  text: |-
+    package usingOperatorsExercise2
+
+    import org.junit.Test
+    import util.unimplementedTest
+
+    class TestUsingOperatorsExercise2 {
+        @Test fun testSolution() {
+            unimplementedTest()
+        }
+    }
+  learner_created: false
+status: Unchecked
+record: -1

@@ -1,0 +1,83 @@
+type: edu
+files:
+- name: src/Task.kt
+  visible: true
+  placeholders:
+  - offset: 138
+    length: 7
+    placeholder_text: // TODO
+    initial_state:
+      length: 7
+      offset: 138
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      interface InCrate<in T> {
+        fun put(item: T)
+      }
+
+      interface OutCrate<out T> {
+        fun get(): T
+      }
+
+      class Crate<T>(private var contents: T) :
+        InCrate<T>, OutCrate<T> {
+        override fun put(item: T) {
+          contents = item
+        }
+        override fun get(): T = contents
+      }
+  - offset: 160
+    length: 140
+    placeholder_text: |-
+      /*
+        val cg: Crate<Grape> = Crate(Grape())
+        val oc: OutCrate<Can> = cg
+        val cc: Crate<Can> = Crate(Can())
+        val ic: InCrate<Grape> = cc
+      */
+    initial_state:
+      length: 140
+      offset: 160
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |2-
+        val cg: Crate<Grape> = Crate(Grape())
+        val oc: OutCrate<Can> = cg
+        val cc: Crate<Can> = Crate(Can())
+        val ic: InCrate<Grape> = cc
+  text: |-
+    // CreatingGenerics/CreatingGenericsSoln3.kt
+    package creatingGenericsExercise3
+    import creatinggenerics.Can
+    import creatinggenerics.Grape
+
+    // TODO
+
+    fun main() {
+    /*
+      val cg: Crate<Grape> = Crate(Grape())
+      val oc: OutCrate<Can> = cg
+      val cc: Crate<Can> = Crate(Can())
+      val ic: InCrate<Grape> = cc
+    */
+    }
+  learner_created: false
+- name: test/Tests.kt
+  visible: false
+  text: |-
+    package creatingGenericsExercise3
+
+    import org.junit.Test
+    import util.unimplementedTest
+
+    class TestCreatingGenericsExercise3 {
+        @Test fun testSolution() {
+            unimplementedTest()
+        }
+    }
+  learner_created: false
+status: Unchecked
+record: -1

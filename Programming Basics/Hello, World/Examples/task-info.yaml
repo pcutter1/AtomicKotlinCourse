@@ -1,0 +1,28 @@
+type: theory
+files:
+- name: src/EmptyProgram.kt
+  visible: true
+  text: |-
+    // HelloWorld/EmptyProgram.kt
+
+    fun main() {
+      // Program code here ...
+    }
+  learner_created: false
+- name: src/HelloWorld.kt
+  visible: true
+  text: |-
+    // HelloWorld/HelloWorld.kt
+
+    fun main() {
+      println("Hello, world!")
+    }
+    /* Output:
+    Hello, world!
+    */
+  learner_created: false
+status: Solved
+feedback:
+  time: Tue, 08 Dec 2020 19:41:27 UTC
+record: -1
+post_submission_on_open: true

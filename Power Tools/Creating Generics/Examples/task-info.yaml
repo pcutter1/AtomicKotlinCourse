@@ -1,0 +1,475 @@
+type: theory
+files:
+- name: src/Speakers.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Speakers.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    class Person {
+      fun speak() = "Hi!"
+    }
+
+    class Dog {
+      fun bark() = "Ruff!"
+    }
+
+    class Robot {
+      fun communicate() = "Beep!"
+    }
+
+    fun talk(speaker: Any) = when (speaker) {
+      is Person -> speaker.speak()
+      is Dog -> speaker.bark()
+      is Robot -> speaker.communicate()
+      else -> "Not a talker" // Or exception
+    }
+
+    fun main() {
+      talk(Person()) eq "Hi!"
+      talk(Dog()) eq "Ruff!"
+      talk(Robot()) eq "Beep!"
+      talk(11) eq "Not a talker"
+    }
+  learner_created: false
+- name: src/DefiningGenerics.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/DefiningGenerics.kt
+    package creatinggenerics
+
+    fun <T> gFunction(arg: T): T = arg
+
+    class GClass<T>(val x: T) {
+      fun f(): T = x
+    }
+
+    class GMemberFunction {
+      fun <T> f(arg: T): T = arg
+    }
+
+    interface GInterface<T> {
+      val x: T
+      fun f(): T
+    }
+
+    class GImplementation<T>(
+      override val x: T
+    ) : GInterface<T> {
+      override fun f(): T = x
+    }
+
+    class ConcreteImplementation
+      : GInterface<String> {
+      override val x: String
+        get() = "x"
+      override fun f() = "f()"
+    }
+
+    fun basicGenerics() {
+      gFunction("Yellow")
+      gFunction(1)
+      gFunction(Dog()).bark()             // [1]
+      gFunction<Dog>(Dog()).bark()
+
+      GClass("Cyan").f()
+      GClass(11).f()
+      GClass(Dog()).f().bark()            // [2]
+      GClass<Dog>(Dog()).f().bark()
+
+      GMemberFunction().f("Amber")
+      GMemberFunction().f(111)
+      GMemberFunction().f(Dog()).bark()   // [3]
+      GMemberFunction().f<Dog>(Dog()).bark()
+
+      GImplementation("Cyan").f()
+      GImplementation(11).f()
+      GImplementation(Dog()).f().bark()
+
+      ConcreteImplementation().f()
+      ConcreteImplementation().x
+    }
+  learner_created: false
+- name: src/CarCrate.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/CarCrate.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    class Car {
+      override fun toString() = "Car"
+    }
+
+    class CarCrate(private var c: Car) {
+      fun put(car: Car) { c = car }
+      fun get(): Car = c
+    }
+
+    fun main() {
+      val cc = CarCrate(Car())
+      val car: Car = cc.get()
+      car eq "Car"
+    }
+  learner_created: false
+- name: src/Crate.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Crate.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    open class Crate<T>(private var contents: T) {
+      fun put(item: T) { contents = item }
+      fun get(): T = contents
+    }
+
+    fun main() {
+      val cc = Crate(Car())
+      val car: Car = cc.get()
+      car eq "Car"
+    }
+  learner_created: false
+- name: src/MapCrate.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/MapCrate.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    fun <T, R> Crate<T>.map(f:(T) -> R): List<R> =
+      listOf(f(get()))
+
+    fun main() {
+      Crate(Car()).map { it.toString() + "x" } eq
+        "[Carx]"
+    }
+  learner_created: false
+- name: src/Disposable.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Disposable.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    interface Disposable {
+      val name: String
+      fun action(): String
+    }
+
+    class Compost(override val name: String) :
+      Disposable {
+      override fun action() = "Add to composter"
+    }
+
+    interface Transport : Disposable
+
+    class Donation(override val name: String) :
+      Transport {
+      override fun action() = "Call for pickup"
+    }
+
+    class Recyclable(override val name: String) :
+      Transport {
+      override fun action() = "Put in bin"
+    }
+
+    class Landfill(override val name: String) :
+      Transport {
+      override fun action() = "Put in dumpster"
+    }
+
+    val items = listOf(
+      Compost("Orange Peel"),
+      Compost("Apple Core"),
+      Donation("Couch"),
+      Donation("Clothing"),
+      Recyclable("Plastic"),
+      Recyclable("Metal"),
+      Recyclable("Cardboard"),
+      Landfill("Trash"),
+    )
+
+    val recyclables =
+      items.filterIsInstance<Recyclable>()
+  learner_created: false
+- name: src/Constrained.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Constrained.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    fun <T: Disposable> nameOf(disposable: T) =
+      disposable.name
+
+    // As an extension:
+    fun <T: Disposable> T.name() = name
+
+    fun main() {
+      recyclables.map { nameOf(it) } eq
+        "[Plastic, Metal, Cardboard]"
+      recyclables.map { it.name() } eq
+        "[Plastic, Metal, Cardboard]"
+    }
+  learner_created: false
+- name: src/NonGenericConstraint.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/NonGenericConstraint.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    fun nameOf2(disposable: Disposable) =
+      disposable.name
+
+    fun Disposable.name2() = name
+
+    fun main() {
+      recyclables.map { nameOf2(it) } eq
+        "[Plastic, Metal, Cardboard]"
+      recyclables.map { it.name2() } eq
+        "[Plastic, Metal, Cardboard]"
+    }
+  learner_created: false
+- name: src/SameReturnType.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/SameReturnType.kt
+    package creatinggenerics
+    import kotlin.random.Random
+
+    private val rnd = Random(47)
+
+    fun List<Disposable>.aRandom(): Disposable =
+      this[rnd.nextInt(size)]
+
+    fun <T: Disposable> List<T>.bRandom(): T =
+      this[rnd.nextInt(size)]
+
+    fun <T> List<T>.cRandom(): T =
+      this[rnd.nextInt(size)]
+
+    fun sameReturnType() {
+      val a: Disposable = recyclables.aRandom()
+      val b: Recyclable = recyclables.bRandom()
+      val c: Recyclable = recyclables.cRandom()
+    }
+  learner_created: false
+- name: src/Constraints.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Constraints.kt
+    package creatinggenerics
+    import kotlin.random.Random
+
+    private val rnd = Random(47)
+
+    // Accesses action() but can't
+    // return the exact type:
+    fun List<Disposable>.inexact(): Disposable {
+      val d: Disposable = this[rnd.nextInt(size)]
+      d.action()
+      return d
+    }
+
+    // Can't access action() without a constraint:
+    fun <T> List<T>.noAccess(): T {
+      val d: T = this[rnd.nextInt(size)]
+      // d.action()
+      return d
+    }
+
+    // Access action() and return the exact type:
+    fun <T: Disposable> List<T>.both(): T {
+      val d: T = this[rnd.nextInt(size)]
+      d.action()
+      return d
+    }
+
+    fun constraints() {
+      val i: Disposable = recyclables.inexact()
+      val n: Recyclable = recyclables.noAccess()
+      val b: Recyclable = recyclables.both()
+    }
+  learner_created: false
+- name: src/Erasure.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Erasure.kt
+    package creatinggenerics
+
+    fun main() {
+      val strings = listOf("a", "b", "c")
+      val all: List<Any> = listOf(1, 2, "x")
+      useList(strings)
+      useList(all)
+    }
+
+    fun useList(list: List<Any>) {
+      // Doesn't compile:
+      /*
+      if (list is List<String>) {   // [1]
+      }
+      */
+    }
+  learner_created: false
+- name: src/ReificationA.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/ReificationA.kt
+    package creatinggenerics
+    import kotlin.reflect.KClass
+
+    fun <T: Any> a(kClass: KClass<T>) {
+      // Uses KClass<T>
+    }
+  learner_created: false
+- name: src/ReificationB.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/ReificationB.kt
+    package creatinggenerics
+
+    // Doesn't compile because of erasure:
+    // fun <T: Any> b() = a(T::class)
+  learner_created: false
+- name: src/ReificationC.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/ReificationC.kt
+    package creatinggenerics
+    import kotlin.reflect.KClass
+
+    fun <T: Any> c(kClass: KClass<T>) = a(kClass)
+
+    class K
+
+    val kc = c(K::class)
+  learner_created: false
+- name: src/ReificationD.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/ReificationD.kt
+    package creatinggenerics
+
+    inline fun <reified T: Any> d() = a(T::class)
+
+    val kd = d<K>()
+  learner_created: false
+- name: src/CheckType.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/CheckType.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    inline fun <reified T> check(t: Any) = t is T
+    // fun <T> check1(t: Any) = t is T      // [1]
+
+    fun main() {
+      check<String>("1") eq true
+      check<Int>("1") eq false
+    }
+  learner_created: false
+- name: src/Select.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/Select.kt
+    package creatinggenerics
+    import atomictest.eq
+
+    inline fun <reified T : Disposable> select() =
+      items.filterIsInstance<T>().map { it.name }
+
+    fun main() {
+      select<Compost>() eq
+        "[Orange Peel, Apple Core]"
+      select<Donation>() eq "[Couch, Clothing]"
+      select<Recyclable>() eq
+        "[Plastic, Metal, Cardboard]"
+      select<Landfill>() eq "[Trash]"
+    }
+  learner_created: false
+- name: src/InAndOutCrates.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/InAndOutCrates.kt
+    package creatinggenerics
+
+    class InCrate<in T>(private var contents: T) {
+      fun put(item: T) { contents = item }
+      // fun get(): T = contents
+    }
+
+    class OutCrate<out T>(private var contents: T) {
+      // fun put(item: T) { contents = item }
+      fun get(): T = contents
+    }
+  learner_created: false
+- name: src/GrapeSoda.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/GrapeSoda.kt
+    package creatinggenerics
+
+    open class Can
+    open class Beverage : Can()
+    class Grape : Beverage()
+    class Cherry : Beverage()
+  learner_created: false
+- name: src/CrateAssignment.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/CrateAssignment.kt
+    package creatinggenerics
+
+    val cg = Crate<Grape>(Grape())
+    // val cb: Crate<Beverage> = cg
+    // val cc: Crate<Can> = cg
+  learner_created: false
+- name: src/OutCrateAssignment.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/OutCrateAssignment.kt
+    package creatinggenerics
+
+    val ocg: OutCrate<Grape> = OutCrate(Grape())
+    val ocb: OutCrate<Beverage> = ocg
+    val occ: OutCrate<Can> = ocg
+
+    fun getting() {
+      val grape: Grape = ocg.get()
+      val beverage: Beverage = ocb.get()
+      val can: Can = occ.get()
+    }
+  learner_created: false
+- name: src/InCrateAssignment.kt
+  visible: true
+  text: |-
+    // CreatingGenerics/InCrateAssignment.kt
+    package creatinggenerics
+
+    val icc: InCrate<Can> = InCrate(Can())
+    val icb: InCrate<Beverage> = icc
+    val icg: InCrate<Grape> = icc
+    val ich: InCrate<Cherry> = icc
+
+    fun main() {
+      icc.put(Can())
+      icc.put(Beverage())
+      icc.put(Grape())
+      icc.put(Cherry())
+
+      icb.put(Beverage())
+      icb.put(Grape())
+      icb.put(Cherry())
+
+      icg.put(Grape())
+      ich.put(Cherry())
+    }
+  learner_created: false
+status: Unchecked
+record: -1
+post_submission_on_open: true

@@ -1,0 +1,105 @@
+type: edu
+files:
+- name: src/Task.kt
+  visible: true
+  placeholders:
+  - offset: 211
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 211
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      Count.values()[
+          (this.ordinal + 1) % Count.values().size
+        ]
+  - offset: 255
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 255
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      if (this.ordinal - 1 < 0)
+          Count.max
+        else
+          Count.values()[this.ordinal - 1]
+  text: |-
+    // OperatorOverloading/OpOverloadingSoln2.kt
+    package operatorOverloadingExercise2
+
+    enum class Count {
+      Eeny, Meeny, Miney, Moe;
+      companion object {
+        val max = Moe
+      }
+    }
+
+    operator fun Count.inc(): Count =
+      TODO()
+
+    operator fun Count.dec(): Count =
+      TODO()
+
+    fun main() {
+      var c = Count.Eeny
+      for (n in 1..4) {
+        println("${c++} -> $c")
+      }
+      println("---------------")
+      for (n in 1..4) {
+        println("${++c} -> $c")
+      }
+      println("---------------")
+      for (n in 1..4) {
+        println("${c--} -> $c")
+      }
+      println("---------------")
+      for (n in 1..4) {
+        println("${--c} -> $c")
+      }
+    }
+    /* Exercise Output:
+    Eeny -> Meeny
+    Meeny -> Miney
+    Miney -> Moe
+    Moe -> Eeny
+    ---------------
+    Meeny -> Meeny
+    Miney -> Miney
+    Moe -> Moe
+    Eeny -> Eeny
+    ---------------
+    Eeny -> Moe
+    Moe -> Miney
+    Miney -> Meeny
+    Meeny -> Eeny
+    ---------------
+    Moe -> Moe
+    Miney -> Miney
+    Meeny -> Meeny
+    Eeny -> Eeny
+    */
+  learner_created: false
+- name: test/Tests.kt
+  visible: false
+  text: |-
+    package operatorOverloadingExercise2
+
+    import org.junit.Test
+    import util.unimplementedTest
+
+    class TestOperatorOverloadingExercise2 {
+        @Test fun testSolution() {
+            unimplementedTest()
+        }
+    }
+  learner_created: false
+status: Unchecked
+record: -1

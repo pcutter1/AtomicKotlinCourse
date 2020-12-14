@@ -1,0 +1,172 @@
+type: edu
+files:
+- name: src/Task.kt
+  visible: true
+  placeholders:
+  - offset: 567
+    length: 12
+    placeholder_text: class Dragon
+    initial_state:
+      length: 12
+      offset: 567
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      class Dragon:
+        Character("Dragon"), Flyer {
+        override fun play() = fly()
+      }
+  - offset: 581
+    length: 12
+    placeholder_text: class Wizard
+    initial_state:
+      length: 12
+      offset: 581
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      class Wizard:
+        Character("Magician"), Magician, Flyer {
+        override fun play() = doMagic() + fly()
+      }
+  - offset: 799
+    length: 18
+    placeholder_text: //    c.playTurn()
+    initial_state:
+      length: 18
+      offset: 799
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: '    c.playTurn()'
+  text: |-
+    package polymorphismExercise1
+    import atomictest.*
+
+    abstract class Character(val name: String) {
+      abstract fun play(): String
+    }
+
+    interface Fighter {
+      fun fight() = "Fight!"
+    }
+
+    interface Magician {
+      fun doMagic() = "Magic!"
+    }
+
+    interface Flyer {
+      fun fly() = "Fly!"
+    }
+
+    class Warrior :
+      Character("Warrior"), Fighter {
+      override fun play() = fight()
+    }
+
+    open class Elf(name: String = "Elf") :
+      Character(name), Magician {
+      override fun play() = doMagic()
+    }
+
+    class FightingElf :
+      Elf("FightingElf"), Fighter {
+      override fun play() =
+        super.play() + fight()
+    }
+
+    class Dragon
+
+    class Wizard
+
+    fun Character.playTurn() =
+      trace((name + ": " + play()))
+
+    fun main() {
+      val characters = listOf(
+        Warrior(),
+        Elf(),
+        FightingElf(),
+        Dragon(),
+        Wizard()
+      )
+      characters.forEach { c ->
+    //    c.playTurn()
+      }
+      trace eq """
+        Warrior: Fight!
+        Elf: Magic!
+        FightingElf: Magic!Fight!
+        Dragon: Fly!
+        Magician: Magic!Fly!
+      """
+    }
+  learner_created: false
+- name: test/Tests.kt
+  visible: false
+  text: |
+    package polymorphismExercise1
+
+    import org.junit.FixMethodOrder
+    import org.junit.Test
+    import org.junit.runners.MethodSorters
+    import util.assertConstructorNumber
+    import util.assertInheritance
+    import util.loadClass
+    import util.loadTraceContent
+    import kotlin.reflect.full.createInstance
+    import kotlin.test.assertEquals
+
+    @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+    class TestPolymorphismExercise1 {
+
+      private val packageName = "polymorphismExercise1"
+
+      @Test
+      fun `#01 classes structure`() {
+        loadClass(packageName, "Warrior").apply {
+          assertConstructorNumber(1)
+          assertInheritance("Character", "Fighter")
+        }
+        loadClass(packageName, "Elf").apply {
+          assertConstructorNumber(1)
+          assertInheritance("Character", "Magician")
+        }
+        loadClass(packageName, "FightingElf").apply {
+          assertConstructorNumber(1)
+          assertInheritance("Elf", "Fighter")
+        }
+        loadClass(packageName, "Wizard").apply {
+          assertConstructorNumber(1)
+          assertInheritance("Character", "Magician", "Flyer")
+        }
+        loadClass(packageName, "Dragon").apply {
+          assertConstructorNumber(1)
+          assertInheritance("Character", "Flyer")
+        }
+      }
+
+      @Test
+      fun `#02 what do the characters`() {
+        listOf("Warrior", "Elf", "FightingElf", "Dragon", "Wizard")
+            .map { loadClass(packageName, it).createInstance() as Character }
+            .forEach { c -> c.playTurn() }
+
+        assertEquals(
+            message = "Incorrect result of playTurn() for all characters",
+            actual = loadTraceContent(),
+            expected = listOf(
+                "Warrior: Fight!",
+                "Elf: Magic!",
+                "FightingElf: Magic!Fight!",
+                "Dragon: Fly!",
+                "Magician: Magic!Fly!"
+            )
+        )
+      }
+    }
+  learner_created: false
+status: Unchecked
+record: -1

@@ -1,0 +1,128 @@
+type: edu
+files:
+- name: src/Task.kt
+  visible: true
+  placeholders:
+  - offset: 405
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 405
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      speak()
+        sit()
+  - offset: 438
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 438
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      (this as Dog).play()
+        feed()
+  - offset: 470
+    length: 6
+    placeholder_text: TODO()
+    initial_state:
+      length: 6
+      offset: 470
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      (this as Dog).play()
+        changeBatteries()
+  - offset: 551
+    length: 4
+    placeholder_text: TODO
+    initial_state:
+      length: 4
+      offset: 551
+    initialized_from_dependency: false
+    selected: false
+    status: Unchecked
+    encrypted_possible_answer: |-
+      b.a.r.k.
+          Sitting...
+  text: "// InheritanceExtensions/InhExtensionsEx1.kt\npackage inheritanceAndExtensionsExercise2\n\
+    \nimport atomictest.*\n\nopen class Dog {\n  open fun speak() = trace(\"Bark!\"\
+    )\n  open fun sit() = trace(\"Sitting...\")\n}\n\nopen class RealDog : Dog() {\n\
+    \  fun feed() = trace(\"Feed\")\n}\n\nclass ToyDog : Dog() {\n  override fun speak()\
+    \ = trace(\"b.a.r.k.\")\n  fun changeBatteries() = trace(\"Change batteries\"\
+    )\n}\n\nfun Dog.play() {\n  TODO()\n}\n\nfun RealDog.play() {\n  TODO()\n}\n\n\
+    fun ToyDog.play() {\n  TODO()\n}\n\nfun main() {\n  val dog: Dog = ToyDog()\n\
+    \  dog.play()\n  trace eq \"\"\"\n    TODO    \n  \"\"\"\n}"
+  learner_created: false
+- name: test/Tests.kt
+  visible: false
+  text: |-
+    package inheritanceAndExtensionsExercise2
+
+    import org.junit.FixMethodOrder
+    import org.junit.Test
+    import org.junit.runners.MethodSorters
+    import util.*
+    import kotlin.reflect.KClass
+    import kotlin.reflect.full.createInstance
+    import kotlin.test.assertEquals
+
+    @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+    class TestInheritanceAndExtensionsExercise2 {
+
+      private val packageName = "inheritanceAndExtensionsExercise2"
+
+      private fun loadClass(className: String): KClass<*> = loadClass(packageName, className)
+
+      @Test
+      fun `#01 classes structure`() {
+        val dogClass = loadClass("Dog").apply {
+          assertOpen()
+          assertNoInheritance()
+          assertDeclaredMemberFunction("speak")
+          assertDeclaredMemberFunction("sit")
+        }
+        val realDogClass = loadClass("RealDog").apply {
+          assertOpen()
+          assertInheritance("Dog")
+          assertDeclaredMemberFunction("feed")
+        }
+        val toyDogClass = loadClass("ToyDog").apply {
+          assertInheritance("Dog")
+          assertDeclaredMemberFunction("speak")
+          assertDeclaredMemberFunction("changeBatteries")
+        }
+
+        val fileFacade = loadFileFacade(packageName)
+        loadToplevelFunction(fileFacade, "play", dogClass)
+        loadToplevelFunction(fileFacade, "play", realDogClass)
+        loadToplevelFunction(fileFacade, "play", toyDogClass)
+      }
+
+      @Test
+      fun `#02 play with toy dog`() {
+        val fileFacade = loadFileFacade(packageName)
+        val dogClass = loadClass("Dog")
+        val toyDogClass = loadClass("ToyDog")
+        val play = loadToplevelFunction(fileFacade, "play", dogClass)
+        play.invoke(null, toyDogClass.createInstance())
+
+        assertEquals(
+            message = "Incorrect sequence of bites and panic",
+            actual = loadTraceContent(),
+            expected = listOf(
+                "b.a.r.k.",
+                "Sitting..."
+            )
+        )
+      }
+    }
+  learner_created: false
+status: Unchecked
+record: -1

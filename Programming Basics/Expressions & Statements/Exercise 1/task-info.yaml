@@ -4,14 +4,14 @@ files:
   visible: true
   placeholders:
   - offset: 58
-    length: 6
+    length: 32
     placeholder_text: TODO()
     initial_state:
       length: 6
       offset: 58
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: println(println(1))
   text: |-
     package expressionsAndStatementsExercise1
@@ -28,5 +28,8 @@ files:
   learner_created: false
 feedback_link: |
   https://docs.google.com/forms/d/e/1FAIpQLSdkaliSwYkjiV21bZl0yP-In2g5p17sAQCfaGjyHx_QYMWTiQ/viewform?usp=pp_url&entry.189755027=Programming+Basics+%2F+Expressions+%26+Statements+%2F+Exercise1
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 16 Dec 2020 19:29:32 UTC
 record: -1

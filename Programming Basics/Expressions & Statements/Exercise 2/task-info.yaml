@@ -4,44 +4,44 @@ files:
   visible: true
   placeholders:
   - offset: 43
-    length: 11
+    length: 29
     placeholder_text: fun f() = 0
     initial_state:
       length: 11
       offset: 43
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: 'fun f(i: Int, j: Int) = i + j'
-  - offset: 56
-    length: 12
+  - offset: 74
+    length: 37
     placeholder_text: fun g() = ""
     initial_state:
       length: 12
       offset: 56
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: 'fun g(s1: String, s2: String) = s1 + s2'
-  - offset: 70
-    length: 13
+  - offset: 113
+    length: 24
     placeholder_text: fun h() = '?'
     initial_state:
       length: 13
       offset: 70
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: fun h() = println("h()")
-  - offset: 100
-    length: 6
+  - offset: 154
+    length: 138
     placeholder_text: TODO()
     initial_state:
       length: 6
       offset: 100
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: |
       val fVal: Int = f(1, 2)
         val gVal: String = g("a", "bc")
@@ -113,5 +113,8 @@ files:
       }
     }
   learner_created: false
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 16 Dec 2020 19:44:25 UTC
 record: -1

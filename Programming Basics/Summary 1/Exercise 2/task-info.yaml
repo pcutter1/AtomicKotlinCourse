@@ -3,15 +3,15 @@ files:
 - name: src/Task.kt
   visible: true
   placeholders:
-  - offset: 60
-    length: 6
+  - offset: 57
+    length: 82
     placeholder_text: TODO()
     initial_state:
       length: 6
       offset: 60
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: |-
       var index = 0
         var result = ""
@@ -67,5 +67,8 @@ files:
       fun test4() = testString(('A'..'Z').joinToString(""))
     }
   learner_created: false
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 16 Dec 2020 19:59:49 UTC
 record: -1

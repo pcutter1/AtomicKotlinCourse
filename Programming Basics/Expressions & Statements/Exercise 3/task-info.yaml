@@ -4,14 +4,14 @@ files:
   visible: true
   placeholders:
   - offset: 99
-    length: 6
+    length: 1
     placeholder_text: TODO()
     initial_state:
       length: 6
       offset: 99
     initialized_from_dependency: false
-    selected: false
-    status: Unchecked
+    selected: true
+    status: Solved
     encrypted_possible_answer: 2
   text: |-
     package expressionsAndStatementsExercise3
@@ -38,5 +38,8 @@ files:
       }
     }
   learner_created: false
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Wed, 16 Dec 2020 19:45:08 UTC
 record: -1

@@ -1,7 +1,11 @@
 package summaryIExercise2
 
 fun other(s: String): String {
-  TODO()
+  var a = ""
+  for (i in 0..(s.length - 1) step 2) {
+    a += s[i]
+  }
+  return a
 }
 
 fun main() {
